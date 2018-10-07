@@ -1,0 +1,16 @@
+#!/bin/sh
+set -e
+
+N=rchain/buildenv
+V=$(git describe --always)
+
+set -x
+docker build -t $N:$V .
+docker tag $N:$V $N:latest
+
+set +x
+builtin echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+set -x
+docker push $N:$V
+docker push $N:latest
