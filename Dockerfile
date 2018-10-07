@@ -11,3 +11,5 @@ FROM ubuntu:bionic
 COPY --from=bnfc-build /var/tmp/bnfc/_build/bnfc /usr/local/bin/
 COPY init-buildenv /tmp/
 RUN /tmp/init-buildenv
+COPY smtp.rchain.me.crt /usr/local/share/ca-certificates
+RUN update-ca-certificates
