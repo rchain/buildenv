@@ -3,11 +3,12 @@ set -ev
 
 PACKAGES=(
 	# utilities for debugging
-	curl netcat-openbsd nmap openssh-server psmisc python3 python3-pip screen
-	socat tmux wget
+	curl netcat-openbsd nmap openssh-server psmisc screen socat tmux wget
 	# build dependencies
 	java-common jflex openjdk-11-jdk-headless openjdk-8-jdk-headless sbt=1.\*
 	moreutils
+	# integration tests
+	python3 python3-pip
 )
 
 apt update
@@ -17,6 +18,11 @@ apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2
 apt update
 apt -y install ${PACKAGES[@]}
 apt clean
+
+# p2p-test-tool.py
+pip3 install argparse docker pexpect requests
+# integration-testing/
+pip3 install docker pytest delayed_assert
 
 curl -s https://codecov.io/bash >/usr/local/bin/codecov
 chmod +x /usr/local/bin/codecov
