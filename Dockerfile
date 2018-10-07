@@ -13,3 +13,4 @@ COPY init-buildenv /tmp/
 RUN /tmp/init-buildenv
 COPY smtp.rchain.me.crt /usr/local/share/ca-certificates
 RUN update-ca-certificates
+RUN apt install rsync
