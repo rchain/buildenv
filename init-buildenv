@@ -43,10 +43,15 @@ PACKAGES=(
 	openjdk-8-jdk-headless
 	sbt=1.\*
 
-	# integration tests and packaging
+	# integration tests
 	python3
 	python3-pip
+
+	# packaging
 	docker-ce
+	rpm
+	fakeroot
+	lintian
 )
 apt -y install ${PACKAGES[@]}
 
