@@ -9,7 +9,7 @@ pipeline:
   build-and-upload:
     image: docker:stable
     commands:
-      - apk add git
+      - apk add git bash
       - ./update-image
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
