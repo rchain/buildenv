@@ -2,7 +2,8 @@
 set -e
 
 N=rchain/buildenv
-V=$(git describe --always)
+git fetch -t
+V=$(git describe --tags)
 
 set -x
 docker build -t $N:$V .
