@@ -16,3 +16,6 @@ RUN update-ca-certificates
 RUN apt install rsync
 RUN apt install locales && sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && locale-gen
 ENV LC_ALL en_US.UTF-8
+RUN useradd -m -u 5050 builder
+USER builder
+WORKDIR /home/builder
