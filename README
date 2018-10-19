@@ -1,0 +1,6 @@
+Docker image used to build RChain[1]. Pushed to Docker hub under rchain/buildenv
+name[2]. See [3] for independently created variant.
+
+[1] https://github.com/rchain/rchain
+[2] https://hub.docker.com/rchain/buildenv
+[3] https://gitlab.com/lifeid/rchain-builder
