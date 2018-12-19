@@ -16,5 +16,3 @@ pipeline:
     secrets:
       - docker_username
       - docker_password
-
-# vim:sw=2:ts=2:
