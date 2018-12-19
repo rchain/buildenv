@@ -9,7 +9,7 @@ pipeline:
   build-and-upload:
     image: docker:stable
     commands:
-      - apk add git bash
+      - apk add git bash alpine-sdk
       - make build-all
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
