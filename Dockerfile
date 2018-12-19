@@ -15,5 +15,5 @@ COPY smtp.rchain.me.crt /usr/local/share/ca-certificates
 RUN update-ca-certificates
 RUN apt install rsync
 RUN apt install locales && sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && locale-gen
-RUN apt install jq
+RUN apt install -y jq
 ENV LC_ALL en_US.UTF-8
