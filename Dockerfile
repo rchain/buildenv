@@ -19,3 +19,8 @@ ENV LC_ALL en_US.UTF-8
 RUN useradd -m -u 5050 builder
 USER builder
 WORKDIR /home/builder
+RUN set -x \
+	&& apt install -y sudo \
+	&& umask 077 \
+	&& echo 'builder ALL = (ALL) NOPASSWD: ALL' >/etc/sudoers.d/builder \
+	true
