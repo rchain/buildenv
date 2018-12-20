@@ -21,7 +21,7 @@ build-java8:
 
 .PHONY: login
 login:
-	builtin echo $$DOCKER_PASSWORD | docker login -u $$DOCKER_USERNAME --password-stdin
+	echo $$DOCKER_PASSWORD | docker login -u $$DOCKER_USERNAME --password-stdin
 
 .PHONY: push
 push: login
