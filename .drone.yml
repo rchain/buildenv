@@ -3,7 +3,8 @@ branches:
 
 clone:
   git-clone:
-    image: plugins/git:next
+    image: plugins/git
+    tags: true
 
 pipeline:
   build-and-upload:
