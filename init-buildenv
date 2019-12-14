@@ -46,10 +46,5 @@ apt clean
 sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen
 locale-gen
 
-# p2p-test-tool.py
-pip3 install argparse docker pexpect requests
-# integration-testing/
-pip3 install docker pytest delayed_assert
-
 curl -s https://codecov.io/bash >/usr/local/bin/codecov
 chmod +x /usr/local/bin/codecov
