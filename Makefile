@@ -1,4 +1,4 @@
-N = woky/buildenv
+N = rchain/buildenv
 V = $(shell git describe --tags)
 
 TARGETS = - -withdeps
