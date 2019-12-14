@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ev
+set -ev -o pipefail
 
 BASE_PACKAGES=(
 	apt-transport-https
