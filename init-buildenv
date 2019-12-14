@@ -26,11 +26,15 @@ apt update
 PACKAGES=(
 	# utilities for debugging
 	curl
+	git
+	jq
+	locales
 	moreutils
 	netcat-openbsd
 	nmap
 	openssh-server
 	psmisc
+	rsync
 	screen
 	socat
 	tmux
@@ -56,6 +60,9 @@ PACKAGES=(
 apt -y install ${PACKAGES[@]}
 
 apt clean
+
+sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen
+locale-gen
 
 # p2p-test-tool.py
 pip3 install argparse docker pexpect requests
