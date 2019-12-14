@@ -24,21 +24,7 @@ add-apt-repository \
 apt update
 
 PACKAGES=(
-	# utilities for debugging
-	curl
-	git
-	jq
 	locales
-	moreutils
-	netcat-openbsd
-	nmap
-	openssh-server
-	psmisc
-	rsync
-	screen
-	socat
-	tmux
-	wget
 
 	# build dependencies
 	java-common
