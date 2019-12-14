@@ -42,4 +42,6 @@ RUN apt install -y --no-install-recommends \
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && locale-gen
 ENV LC_ALL en_US.UTF-8
 RUN curl -s https://codecov.io/bash >/usr/local/bin/codecov && chmod +x /usr/local/bin/codecov
-WORKDIR /work
+RUN useradd -m builder && gpasswd -a builder docker
+USER builder
+WORKDIR /home/builder
