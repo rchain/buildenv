@@ -2,4 +2,8 @@ FROM rchain/buildenv:latest
 ARG GIT_URL=https://github.com/rchain/rchain
 ARG GIT_REV=dev
 RUN git clone $GIT_URL tmpclone && git -C tmpclone checkout $GIT_REV
-RUN cd tmpclone && sbt update && rm -rf tmpclone
+RUN cd tmpclone && sbt update
+RUN cd tmpclone/integration-tests \
+    && PIPENV_VENV_IN_PROJECT=1 python -m pipenv sync \
+    && mv .venv /var/cache/rchain-integration-tests-venv
+RUN rm -rf tmpclone

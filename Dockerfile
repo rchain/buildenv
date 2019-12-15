@@ -14,13 +14,12 @@ FROM ubuntu:bionic
 COPY --from=bnfc-build /var/tmp/bnfc/bnfc /usr/local/bin/
 RUN apt update && apt install -y --no-install-recommends \
         apt-transport-https \
-        ca-certificates curl \
+        ca-certificates \
+        curl \
         gnupg \
         lsb-release \
         locales \
         git \
-        python3 \
-        python3-pip \
         rpm \
         fakeroot \
         lintian
@@ -29,13 +28,30 @@ RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && locale-gen \
     && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
     && echo 'deb https://dl.bintray.com/sbt/debian /' >/etc/apt/sources.list.d/sbt.list \
     && echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" >/etc/apt/sources.list.d/docker-ce.list
-ENV LC_ALL en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 RUN apt update && apt install -y --no-install-recommends \
         openjdk-11-jdk-headless \
         java-common \
         jflex \
         sbt=1.\* \
         docker-ce-cli
+ARG PYTHON_VERSION=3.7.3
+ARG PYTHON_BUILDREQ="build-essential libffi-dev libssl-dev make zlib1g-dev"
+ARG PYENV_GITREV=master
+ENV PYENV_ROOT=/opt/pyenv
+ENV PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
+RUN curl -fsSL https://raw.githubusercontent.com/pyenv/pyenv-installer/$PYENV_GITREV/bin/pyenv-installer | bash \
+    && apt install -y --no-install-recommends $PYTHON_BUILDREQ \
+    && pyenv install $PYTHON_VERSION \
+    && rm -r $PYENV_ROOT/versions/*/lib/python*/test \
+    && find $PYENV_ROOT -name '*.exe' -exec rm {} \; \
+    && pyenv global $PYTHON_VERSION \
+    && python -m pip install pipenv \
+    && apt purge -y --auto-remove $PYTHON_BUILDREQ
+RUN rm -rf /var/cache/* /var/lib/apt/lists/* ~/.cache/* \
+    && mkdir /var/cache/sbt /var/cache/ivy2
+ENV SBT_OPTS="-Dsbt.global.base=/var/cache/sbt -Dsbt.ivy.home=/var/cache/ivy2"
+WORKDIR /work
 # sbt --version >/dev/null
 #   Workaround bug in current sbt. See https://github.com/sbt/sbt-launcher-package/blob/aa6ce25a865632c628e0986c7204d419f086152d/src/universal/bin/sbt
 #   lines 378 and 341. The execRunner call never returns, so the very
@@ -44,4 +60,3 @@ RUN apt update && apt install -y --no-install-recommends \
 #   download full sbt runtime that will most likely differ from that
 #   defined in RChain project (sbt.properties).
 RUN sbt --version
-WORKDIR /work
