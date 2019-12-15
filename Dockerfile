@@ -32,7 +32,6 @@ RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && locale-gen \
 ENV LC_ALL en_US.UTF-8
 RUN apt update && apt install -y --no-install-recommends \
         openjdk-11-jdk-headless \
-        openjdk-8-jdk-headless \
         java-common \
         jflex \
         sbt=1.\* \
