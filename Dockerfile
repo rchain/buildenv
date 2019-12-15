@@ -17,6 +17,7 @@ RUN apt update && apt install -y --no-install-recommends \
         ca-certificates \
         curl \
         gnupg \
+        jq \
         lsb-release \
         locales \
         git \
@@ -36,20 +37,31 @@ RUN apt update && apt install -y --no-install-recommends \
         sbt=1.\* \
         docker-ce-cli
 ARG PYTHON_VERSION=3.7.3
-ARG PYTHON_BUILDREQ="build-essential libffi-dev libssl-dev make zlib1g-dev"
+ARG PYTHON_BUILDREQ="\
+    build-essential \
+    libbz2-dev \
+    libffi-dev \
+    liblzma-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    make \
+    zlib1g-dev \
+"
 ARG PYENV_GITREV=master
 ENV PYENV_ROOT=/opt/pyenv
 ENV PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
-RUN curl -fsSL https://raw.githubusercontent.com/pyenv/pyenv-installer/$PYENV_GITREV/bin/pyenv-installer | bash \
-    && apt install -y --no-install-recommends $PYTHON_BUILDREQ \
+RUN apt install -y --no-install-recommends $PYTHON_BUILDREQ \
+    && curl -fsSL https://raw.githubusercontent.com/pyenv/pyenv-installer/$PYENV_GITREV/bin/pyenv-installer | bash \
     && pyenv install $PYTHON_VERSION \
     && rm -r $PYENV_ROOT/versions/*/lib/python*/test \
     && find $PYENV_ROOT -name '*.exe' -exec rm {} \; \
     && pyenv global $PYTHON_VERSION \
     && python -m pip install pipenv \
     && apt purge -y --auto-remove $PYTHON_BUILDREQ
-RUN rm -rf /var/cache/* /var/lib/apt/lists/* ~/.cache/* \
-    && mkdir /var/cache/sbt /var/cache/ivy2
+COPY bin/* /usr/local/bin/
+RUN rm -rf /var/cache/* \
+    && mkdir /var/cache/sbt /var/cache/ivy2 \
+    && rm -rf ~/.cache/* /tmp/* /var/tmp/* /var/lib/apt/lists/*
 ENV SBT_OPTS="-Dsbt.global.base=/var/cache/sbt -Dsbt.ivy.home=/var/cache/ivy2"
 WORKDIR /work
 # sbt --version >/dev/null

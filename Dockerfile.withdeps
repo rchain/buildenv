@@ -4,6 +4,6 @@ ARG GIT_REV=dev
 RUN git clone $GIT_URL tmpclone && git -C tmpclone checkout $GIT_REV
 RUN cd tmpclone && sbt update
 RUN cd tmpclone/integration-tests \
-    && PIPENV_VENV_IN_PROJECT=1 python -m pipenv sync \
-    && mv .venv /var/cache/rchain-integration-tests-venv
+    && python -m venv /var/cache/integration-tests-venv \
+    && PATH=/var/cache/integration-tests-venv/bin:$PATH pip-install-pipfilelock
 RUN rm -rf tmpclone
