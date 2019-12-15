@@ -1,0 +1,4 @@
+#!/bin/bash
+# Invoke with '-' to read Pipfile.lock from stdin.
+set -e -o pipefail
+cat ${1-Pipfile.lock} | pipfilelock-to-requirementstxt | pip3 install -r /dev/stdin

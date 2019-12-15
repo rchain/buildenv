@@ -2,8 +2,10 @@ FROM rchain/buildenv:latest
 ARG GIT_URL=https://github.com/rchain/rchain
 ARG GIT_REV=dev
 RUN git clone $GIT_URL tmpclone && git -C tmpclone checkout $GIT_REV
-RUN cd tmpclone && sbt update
 RUN cd tmpclone/integration-tests \
-    && python -m venv /var/cache/integration-tests-venv \
-    && PATH=/var/cache/integration-tests-venv/bin:$PATH pip-install-pipfilelock
+    && [ -e .python-version ] || echo '3.7.5' >.python-version \
+    && pyenv install \
+    && pyenv exec python3 -m venv /var/cache/integration-tests-venv \
+    && PATH=/var/cache/integration-tests-venv/bin:$PATH pip-install-from-pipfilelock
+RUN cd tmpclone && sbt update
 RUN rm -rf tmpclone
