@@ -1,0 +1,21 @@
+name: Continuous Integration
+on: [push]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v1
+
+      - name: Build Images
+        run: make build
+
+      - name: Login to Docker Hub
+        env:
+          USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: echo $PASSWORD | docker login -u $USERNAME --password-stdin
+
+      - name: Publish Images
+        run: make push
