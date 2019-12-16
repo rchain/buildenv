@@ -48,6 +48,7 @@ RUN apt update \
         rpm \
         sbt=1.\* \
         zlib1g-dev \
+    && pip3 install pipenv \
     && curl -fsSL https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash \
     && rm -rf /var/cache/* \
     && mkdir /var/cache/sbt /var/cache/ivy2 \
