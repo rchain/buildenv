@@ -8,6 +8,9 @@ jobs:
       - name: Clone Repository
         uses: actions/checkout@v1
 
+      - name: Fetch Previous Build
+        run: docker pull rchain/buildenv
+
       - name: Build Images
         run: make build
 
