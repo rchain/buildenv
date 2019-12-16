@@ -7,5 +7,5 @@ RUN cd tmpclone/integration-tests \
     && pyenv install \
     && pyenv exec python3 -m venv /var/cache/integration-tests-venv \
     && PATH=/var/cache/integration-tests-venv/bin:$PATH pip-install-from-pipfilelock
-RUN cd tmpclone && sbt update
+RUN cd tmpclone && sbt rholang/bnfc:generate compile test:compile
 RUN rm -rf tmpclone
