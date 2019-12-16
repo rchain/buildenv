@@ -54,7 +54,7 @@ RUN apt update \
     && mkdir /var/cache/sbt /var/cache/ivy2 \
     && rm -rf ~/.cache/* /tmp/* /var/tmp/* /var/lib/apt/lists/*
 ENV PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH \
-    SBT_OPTS="-Dsbt.global.base=/var/cache/sbt -Dsbt.ivy.home=/var/cache/ivy2"
+    SBT_OPTS="-Dsbt.global.base=/var/cache/sbt -Dsbt.ivy.home=/var/cache/ivy2 -Dsbt.ci=true"
 COPY --from=bnfc-build /var/tmp/bnfc/bnfc /usr/local/bin/
 COPY bin/* /usr/local/bin/
 WORKDIR /work
