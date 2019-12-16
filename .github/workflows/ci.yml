@@ -11,11 +11,10 @@ jobs:
       - name: Build Images
         run: make build
 
-      - name: Login to Docker Hub
+      - name: Publish Images
         env:
           USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-        run: echo $PASSWORD | docker login -u $USERNAME --password-stdin
-
-      - name: Publish Images
-        run: make push
+        run: |
+          echo $PASSWORD | docker login -u $USERNAME --password-stdin
+          make push
