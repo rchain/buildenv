@@ -1,5 +1,5 @@
-N = rchain/buildenv
-V = $(shell git describe --tags)
+N = $(or $(IMAGE_NAME),rchain/buildenv)
+V = $(shell git describe --tags --always)
 
 TARGETS = - -withdeps
 
