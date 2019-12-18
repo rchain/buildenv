@@ -42,6 +42,7 @@ RUN apt update \
         libssl-dev \
         lintian \
         make \
+        openjdk-8-jdk-headless \
         openjdk-11-jdk-headless \
         python3 \
         python3-pip \
@@ -49,20 +50,17 @@ RUN apt update \
         sbt=1.\* \
         zlib1g-dev \
     && pip3 install pipenv \
+    && update-java-alternatives --set java-1.11.0-openjdk-amd64 \
     && curl -fsSL https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash \
     && rm -rf /var/cache/* \
     && mkdir /var/cache/sbt /var/cache/ivy2 \
     && rm -rf ~/.cache/* /tmp/* /var/tmp/* /var/lib/apt/lists/*
-ENV PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH \
-    SBT_OPTS="-Dsbt.global.base=/var/cache/sbt -Dsbt.ivy.home=/var/cache/ivy2 -Dsbt.ci=true"
+ENV PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 COPY --from=bnfc-build /var/tmp/bnfc/bnfc /usr/local/bin/
-COPY bin/* /usr/local/bin/
 WORKDIR /work
-# sbt --version >/dev/null
-#   Workaround bug in current sbt. See https://github.com/sbt/sbt-launcher-package/blob/aa6ce25a865632c628e0986c7204d419f086152d/src/universal/bin/sbt
-#   lines 378 and 341. The execRunner call never returns, so the very
-#   first run of sbt just says "Copying runtime jar." and exits. This
-#   command should be removed when it's fixed in sbt as it will then
-#   download full sbt runtime that will most likely differ from that
-#   defined in RChain project (sbt.properties).
+# Workaround bug in current sbt. See https://github.com/sbt/sbt-launcher-package/blob/aa6ce25a865632c628e0986c7204d419f086152d/src/universal/bin/sbt
+# lines 378 and 341. The execRunner call never returns, so the very first run
+# of sbt just says "Copying runtime jar." and exits. This command should be
+# removed when it's fixed in sbt as it will then download full sbt runtime that
+# will most likely differ from that defined in RChain project (sbt.properties).
 RUN sbt --version
