@@ -46,6 +46,7 @@ RUN apt update \
         openjdk-11-jdk-headless \
         python3 \
         python3-pip \
+        python3-yaml \
         rpm \
         sbt=1.\* \
         zlib1g-dev \
