@@ -41,16 +41,15 @@ RUN apt update \
         libsqlite3-dev \
         libssl-dev \
         lintian \
-        make \
+        moreutils \
         openjdk-8-jdk-headless \
         openjdk-11-jdk-headless \
         python3 \
         python3-pip \
-        python3-yaml \
         rpm \
         sbt=1.\* \
         zlib1g-dev \
-    && pip3 install pipenv \
+    && pip3 install -U pip pipenv pyaml \
     && update-java-alternatives --set java-1.11.0-openjdk-amd64 \
     && curl -fsSL https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash \
     && rm -rf /var/cache/* \
