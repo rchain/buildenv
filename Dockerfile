@@ -52,7 +52,7 @@ RUN apt update \
     && update-java-alternatives --set java-1.11.0-openjdk-amd64 \
     && pip3 install -U setuptools pip pipenv pyyaml \
     && curl -fsSL https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash \
-    && rm -rf ~/.cache/* /var/cache/* /var/lib/apt/lists/* /var/tmp/* /tmp/*
+    && find ~/.cache /var/cache /var/lib/apt/lists /var/tmp /tmp -mindepth 1 -delete
 ENV PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 COPY --from=bnfc-build /var/tmp/bnfc/bnfc /usr/local/bin/
 WORKDIR /work
