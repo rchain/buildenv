@@ -53,7 +53,13 @@ RUN apt update \
     && pip3 install -U setuptools pip \
     && pip3 install -U pipenv pyyaml \
     && curl -fsSL https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash \
-    && find ~/.cache /var/cache /var/lib/apt/lists /var/tmp /tmp -mindepth 1 -delete
+    && find \
+        ~/.cache \
+        /var/cache \
+        /var/lib/apt/lists \
+        /var/tmp \
+        /tmp \
+        -mindepth 1 -delete || true
 ENV PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 COPY --from=bnfc-build /var/tmp/bnfc/bnfc /usr/local/bin/
 WORKDIR /work
