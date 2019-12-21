@@ -50,8 +50,8 @@ RUN apt update \
         sbt=1.\* \
         zlib1g-dev \
     && update-java-alternatives --set java-1.11.0-openjdk-amd64 \
-    && pip3 install -U setuptools \
-    && pip3 install -U pip pipenv pyyaml \
+    && pip3 install -U setuptools pip \
+    && pip3 install -U pipenv pyyaml \
     && curl -fsSL https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash \
     && find ~/.cache /var/cache /var/lib/apt/lists /var/tmp /tmp -mindepth 1 -delete
 ENV PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
