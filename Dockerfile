@@ -49,12 +49,10 @@ RUN apt update \
         rpm \
         sbt=1.\* \
         zlib1g-dev \
-    && pip3 install -U pip pipenv pyaml \
     && update-java-alternatives --set java-1.11.0-openjdk-amd64 \
+    && pip3 install -U pip pipenv pyaml \
     && curl -fsSL https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash \
-    && rm -rf /var/cache/* \
-    && mkdir /var/cache/sbt /var/cache/ivy2 \
-    && rm -rf ~/.cache/* /tmp/* /var/tmp/* /var/lib/apt/lists/*
+    && rm -rf ~/.cache/* /var/cache/* /var/lib/apt/lists/* /var/tmp/* /tmp/*
 ENV PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 COPY --from=bnfc-build /var/tmp/bnfc/bnfc /usr/local/bin/
 WORKDIR /work
