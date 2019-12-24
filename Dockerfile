@@ -23,8 +23,10 @@ RUN apt update \
     && locale-gen \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
     && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
+    && curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - \
     && echo 'deb https://dl.bintray.com/sbt/debian /' >/etc/apt/sources.list.d/sbt.list \
-    && echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" >/etc/apt/sources.list.d/docker-ce.list
+    && echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" >/etc/apt/sources.list.d/docker-ce.list \
+    && echo 'deb https://packages.cloud.google.com/apt cloud-sdk main' >/etc/apt/sources.list.d/google-cloud-sdk.list
 ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 PYENV_ROOT=/opt/pyenv
 RUN apt update \
     && apt install -y --no-install-recommends \
@@ -32,6 +34,7 @@ RUN apt update \
         docker-ce-cli \
         fakeroot \
         git \
+        google-cloud-sdk \
         java-common \
         jflex \
         jq \
@@ -44,6 +47,7 @@ RUN apt update \
         moreutils \
         openjdk-8-jdk-headless \
         openjdk-11-jdk-headless \
+        python-crcmod \
         python3 \
         python3-pip \
         rpm \
