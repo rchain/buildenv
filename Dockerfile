@@ -56,7 +56,10 @@ RUN apt update \
     && update-java-alternatives --set java-1.11.0-openjdk-amd64 \
     && pip3 install -U setuptools pip \
     && hash -r \
-    && pip3 install -U pipenv pyyaml \
+    && pip3 install -U \
+        pipenv \
+        pyyaml \
+        requests \
     && curl -fsSL https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash \
     && find \
         ~/.cache \
