@@ -34,7 +34,6 @@ RUN apt update \
         docker-ce-cli \
         fakeroot \
         git \
-        google-cloud-sdk \
         java-common \
         jflex \
         jq \
