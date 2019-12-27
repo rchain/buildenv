@@ -69,9 +69,10 @@ RUN apt update \
 ENV PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 COPY --from=bnfc-build /var/tmp/bnfc/bnfc /usr/local/bin/
 WORKDIR /work
-# Workaround bug in current sbt. See https://github.com/sbt/sbt-launcher-package/blob/aa6ce25a865632c628e0986c7204d419f086152d/src/universal/bin/sbt
+# Workaround bug in sbt <= 1.3.5. See https://github.com/sbt/sbt-launcher-package/blob/aa6ce25a865632c628e0986c7204d419f086152d/src/universal/bin/sbt
 # lines 378 and 341. The execRunner call never returns, so the very first run
 # of sbt just says "Copying runtime jar." and exits. This command should be
 # removed when it's fixed in sbt as it will then download full sbt runtime that
 # will most likely differ from that defined in RChain project (sbt.properties).
-RUN sbt --version
+RUN dpkg --compare-versions "$(dpkg-query -W -f '${Version}' sbt)" ge 1.3.6 \
+        || sbt --version
