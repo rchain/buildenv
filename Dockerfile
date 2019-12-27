@@ -44,7 +44,6 @@ RUN apt update \
         libssl-dev \
         lintian \
         moreutils \
-        openjdk-8-jdk-headless \
         openjdk-11-jdk-headless \
         python-crcmod \
         python3 \
