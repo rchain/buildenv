@@ -61,13 +61,13 @@ RUN apt update \
         pyyaml \
         requests \
     && curl -fsSL https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash \
-    && find \
-        ~/.cache \
+    && for dir in \
+        /tmp \
         /var/cache \
         /var/lib/apt/lists \
         /var/tmp \
-        /tmp \
-        -mindepth 1 -delete || true
+        ~/.cache \
+        ; do [ ! -d $dir ] || find $dir -mindepth 1 -delete; done
 ENV PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 COPY --from=bnfc-build /var/tmp/bnfc/bnfc /usr/local/bin/
 WORKDIR /work
