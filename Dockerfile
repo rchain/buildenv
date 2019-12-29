@@ -26,13 +26,15 @@ RUN apt update \
     && curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - \
     && echo 'deb https://dl.bintray.com/sbt/debian /' >/etc/apt/sources.list.d/sbt.list \
     && echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" >/etc/apt/sources.list.d/docker-ce.list \
-    && echo 'deb https://packages.cloud.google.com/apt cloud-sdk main' >/etc/apt/sources.list.d/google-cloud-sdk.list
+    && echo 'deb https://packages.cloud.google.com/apt cloud-sdk main' >/etc/apt/sources.list.d/google-cloud-sdk.list \
+    && echo "deb https://packages.cloud.google.com/apt gcsfuse-$(lsb_release -cs) main" >/etc/apt/sources.list.d/gcsfuse.list
 ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 PYENV_ROOT=/opt/pyenv
 RUN apt update \
     && apt install -y --no-install-recommends \
         build-essential \
         docker-ce-cli \
         fakeroot \
+        gcsfuse \
         git \
         java-common \
         jflex \
