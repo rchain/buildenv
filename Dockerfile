@@ -52,6 +52,7 @@ RUN apt update \
         python3-pip \
         rpm \
         sbt=1.\* \
+        sudo \
         zlib1g-dev \
     && update-java-alternatives --set java-1.11.0-openjdk-amd64 \
     && pip3 install -U setuptools pip \
@@ -61,6 +62,9 @@ RUN apt update \
         pyyaml \
         requests \
     && curl -fsSL https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash \
+    && echo 'builder ALL = (ALL) NOPASSWD: ALL' >/etc/sudoers.d/builder \
+    && groupadd -g 1000 builder \
+    && useradd -m -s /bin/bash -u 1000 -g 1000 builder \
     && for dir in \
         /tmp \
         /var/cache \
