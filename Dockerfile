@@ -7,7 +7,6 @@ ARG BNFC_COMMIT=ce7fe1fd08d9d808c14ff626c321218c5b73e38b
 RUN git clone https://github.com/BNFC/bnfc . && git checkout $BNFC_COMMIT
 RUN stack init && stack setup
 RUN stack build && stack install --local-bin-path=.
-
 # Container for building RChain
 # bionic = 18.04
 FROM ubuntu:bionic
@@ -19,16 +18,18 @@ RUN apt update \
         gnupg \
         locales \
         lsb-release \
+        software-properties-common \
     && sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen \
     && locale-gen \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
     && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
     && curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - \
-    && echo 'deb https://dl.bintray.com/sbt/debian /' >/etc/apt/sources.list.d/sbt.list \
+    && echo 'deb https://repo.scala-sbt.org/scalasbt/debian all main' > /etc/apt/sources.list.d/sbt.list \
     && echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" >/etc/apt/sources.list.d/docker-ce.list \
     && echo 'deb https://packages.cloud.google.com/apt cloud-sdk main' >/etc/apt/sources.list.d/google-cloud-sdk.list \
     && echo "deb https://packages.cloud.google.com/apt gcsfuse-$(lsb_release -cs) main" >/etc/apt/sources.list.d/gcsfuse.list
 ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 PYENV_ROOT=/opt/pyenv
+RUN apt-add-repository ppa:git-core/ppa
 RUN apt update \
     && apt install -y --no-install-recommends \
         build-essential \
